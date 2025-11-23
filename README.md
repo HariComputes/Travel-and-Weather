@@ -13,4 +13,12 @@ This uses google API for maps, traffic and directions. Full list below:
 - Maps JavaScript API					
 - Routes API
 
-It also requires Openweather API 
+It also requires Openweather API:
+https://openweathermap.org
+
+There is also a python "requirements.txt" file in the repo.
+
+### What does it look like?
+Looks a bit like this. I've removed my route from my home and my workplace. But it looks like your usual google maps route. With a blue line and Red markers.
+<img width="1868" height="870" alt="image" src="https://github.com/user-attachments/assets/f139e132-bbe0-4019-9d0c-eef59b1c4750" />
+
