@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drive & Weather Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script>
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 10,
+            center: { lat: {{ route.coords.Midpoint[0] }}, lng: {{ route.coords.Midpoint[1] }} },
+            mapId: "35181a128840bb0d52d7d07f",
+        });
+
+        // Segment-level traffic polylines
+        {% for step in route.steps %}
+            new google.maps.Polyline({
+                path: [
+                    {% for lat, lng in step.path %}
+                        { lat: {{ lat }}, lng: {{ lng }} },
+                    {% endfor %}
+                ],
+                strokeColor: "{{ step.color }}",
+                strokeOpacity: 0.8,
+                strokeWeight: 5,
+                map: map,
+            });
+         {% endfor %}
+
+         {% for name, coords in route.coords.items() %}
+             new google.maps.marker.AdvancedMarkerElement({
+                 position: { lat: {{ coords[0] }}, lng: {{ coords[1] }} },
+                 map: map,
+                 title: "{{ name }}"
+             });
+         {% endfor %}
+         console.log("initMap defined");
+
+
+    }
+    </script>	
+	
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap&libraries=marker&loading=async"></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="container">
+        <div id="map"></div>
+        <div class="info">
+	    <div>
+                <h2 style="margin-top: 0px; display: inline-block;">Route Summary</h2>
+
+                <p class="datetime" style="float: right; text-align: right; display: inline-block;"> {{ datentime }} </p>
+            </div>
+            <div>
+            </div>
+            <p class="LocWDeets">Drive Time: {{ routecalc.duration }} min</p>
+            <p class="LocWDeets">Normally: {{ routecalc.static }} min</p>
+            <p class="LocWDeets">Distance: {{ routecalc.distance }}</p>
+            <br><br>
+            <h2 style="margin-top: 0px; margin-bottom: 2px;">Weather</h2>
+            <table class="weather-table">
+              <thead>
+                <tr>
+                  <th>Location</th>
+                  <th>Now</th>
+                  <th>In 8 hrs</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for name, data in weather.items() %}
+                  {% set dataf = weatherfuture[name] %}
+                  <tr>
+                    <td><strong>{{ name }}</strong></td>
+                    <td>
+                      <img src="{{ data.icon }}" style="width: 40px;"><br>
+                      {{ data.label.replace('\n', '<br>')|safe }}
+                    </td>
+                    <td>
+                      <img src="{{ dataf.icon }}" style="width: 40px;"><br>
+                      {{ dataf.label.replace('\n', '<br>')|safe }}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="buttondiv" style="margin-top: auto; text-align: center;">
+                <button class="buttonitself" onclick="location.reload()">Refresh</button>
+            </div>
+
+        </div>
+    </div>
+
+    </script>
+    <script type="text/javascript" src="/static/autorefresh.js"></script>
+</body>
+</html>

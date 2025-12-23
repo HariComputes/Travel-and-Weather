@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drive & Weather Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap&libraries=marker&loading=async"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="map"></div>
+        <div class="info">
+            <h2>Route Summary</h2>
+            <p>Drive Time: {{ routecalc.duration }} min (Normal: {{ routecalc.static }} min)</p>
+            <p>Distance: {{ routecalc.distance }}</p>
+            <h2>Weather</h2>
+            {% for name, data in weather.items() %}
+<!--                <p>{{ name }}: {{ data }}</p> -->
+                <p>{{ name }}: <img src="{{ data.icon }}" style="height:20px;"> {{ data.label }}</p>
+            {% endfor %}
+            <button onclick="location.reload()">Refresh</button>
+        </div>
+    </div>
+
+    <script async>
+    async function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 10,
+            center: { lat: {{ route.coords.Midpoint[0] }}, lng: {{ route.coords.Midpoint[1] }} },
+            mapId: "35181a128840bb0d52d7d07f",
+        });
+
+        // Segment-level traffic polylines
+        {% for step in route.steps %}
+            new google.maps.Polyline({
+                path: [
+                    {% for lat, lng in step.path %}
+                        { lat: {{ lat }}, lng: {{ lng }} },
+                    {% endfor %}
+                ],
+                strokeColor: "{{ step.color }}",
+                strokeOpacity: 0.8,
+                strokeWeight: 5,
+                map: map,
+            });
+         {% endfor %}
+
+       // Weather markers with icons
+        {% for name, coords in route.coords.items() %}
+                const marker_{{ name|replace(' ', '_') }} = new google.maps.marker.AdvancedMarkerElement({
+                    map: map,
+                    position: { lat: {{ coords[0] }}, lng: {{ coords[1] }} },
+                    content: (() => {
+                        const div = document.createElement("div");
+                        div.style.display = "flex";
+                        div.style.flexDirection = "column";
+                        div.style.alignItems = "center";
+                        div.innerHTML = `
+                            <img src="{{ weather[name].icon }}" style="width:50px;height:50px;">
+                            <span style="font-size:12px;color:#000;">{{ weather[name].label }}</span>
+                        `;
+                        return div;
+                    })()
+                });
+
+
+        {% endfor %}
+    }
+    </script>
+
+</body>
+</html>

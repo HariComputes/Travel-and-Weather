@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drive & Weather Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap&libraries=marker&loading=async"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="map"></div>
+        <div class="info">
+            <h2 style="margin-top: 0px;">Route Summary</h2>
+            <p class="LocWDeets">Drive Time: {{ routecalc.duration }} min</p>
+            <p class="LocWDeets">Normally: {{ routecalc.static }} min</p>
+            <p class="LocWDeets">Distance: {{ routecalc.distance }}</p>
+            <br><br>
+            <h2 style="margin-top: 0px;">Weather</h2>
+            {% for name, data in weather.items() %}
+              {% set dataf = weatherfuture[name] %}
+<!--                <p>{{ name }}: {{ data }}</p> -->
+                <h3 class="LocTitle">{{ name }}:</h3><br style="display: none;">
+                <table>
+                  <tr>
+                    <td><h4>Now:</h4></td>
+                    <td><p class="LocWDeets"><img src="{{ data.icon }}" style="width: 6%"> {{ data.label.replace('\n', '<br>')|safe }}<p></td>
+                    <td><h4>In 8 hrs</h4></td>
+                    <td><p class="LocWDeets"><img src="{{ dataf.icon }}" style="width: 6%"> {{ dataf.label.replace('\n', '<br>')|safe }}<p></td>
+                  </tr>
+                <table>
+            {% endfor %}
+            <div class="buttondiv" style="margin-top: auto; text-align: center;">
+                <button class="buttonitself" onclick="location.reload()">Refresh</button>
+            </div>
+        </div>
+    </div>
+
+    <script async>
+    async function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 10,
+            center: { lat: {{ route.coords.Midpoint[0] }}, lng: {{ route.coords.Midpoint[1] }} },
+            mapId: "35181a128840bb0d52d7d07f",
+        });
+
+        // Segment-level traffic polylines
+        {% for step in route.steps %}
+            new google.maps.Polyline({
+                path: [
+                    {% for lat, lng in step.path %}
+                        { lat: {{ lat }}, lng: {{ lng }} },
+                    {% endfor %}
+                ],
+                strokeColor: "{{ step.color }}",
+                strokeOpacity: 0.8,
+                strokeWeight: 5,
+                map: map,
+            });
+         {% endfor %}
+
+         {% for name, coords in route.coords.items() %}
+             new google.maps.marker.AdvancedMarkerElement({
+                 position: { lat: {{ coords[0] }}, lng: {{ coords[1] }} },
+                 map: map,
+                 title: "{{ name }}"
+             });
+         {% endfor %}
+
+
+    }
+    </script>
+    <script type="text/javascript" src="/static/autorefresh.js"></script>
+</body>
+</html>
