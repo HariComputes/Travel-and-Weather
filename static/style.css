@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    font-size: 100%;
+    font-size: 180%;
     overflow: hidden;
 }
 .container {
@@ -17,14 +17,14 @@ body {
 
 @media screen and (max-device-height: 801px) {
   #map {
-    flex: 3;
+    flex: 2;
   }
 
 }
 
 .datetime {
     margin: -2.9%;
-    font-size: 120%;
+    font-size: 115%;
 }
 
 .LocTitle {
@@ -33,12 +33,12 @@ body {
 
 .LocWDeets {
     margin: 0px;
-    font-size: 130%;
+    font-size: 100%;
 }
 
 .info {
     flex: 2;
-    display: flex;
+/*    display: flex;*/
 /*    height: 97.5%; */
     height: 100%;
     justify-content: space-between;
@@ -55,7 +55,7 @@ body {
 }
 
 .buttondiv {
-    margin-top: auto;
+    margin-top: 8%;
     margin-bottom: 20%;
     text-align: center;
 }
@@ -118,7 +118,7 @@ button {
 
 .weather-table th, .weather-table td {
   border: 1px solid #ccc;
-  padding: 2%;
+  padding: 1%;
   text-align: center;
   vertical-align: top;
   word-wrap: break-word;
