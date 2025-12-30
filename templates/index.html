@@ -8,7 +8,7 @@
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 10,
-            center: { lat: {{ route.coords.Midpoint[0] }}, lng: {{ route.coords.Midpoint[1] }} },
+            center: { lat: {{ route.coords.Midway[0] }}, lng: {{ route.coords.Midway[1] }} },
             mapId: "35181a128840bb0d52d7d07f",
         });
 
@@ -50,21 +50,21 @@
         <div id="map"></div>
         <div class="info">
 	    <div>
-                <h2 style="margin-top: 0px; display: inline-block;">Route Summary</h2>
+                <h2 style="display: inline-block;">Route Summary</h2>
 
                 <p class="datetime" style="float: right; text-align: right; display: inline-block;"> {{ datentime }} </p>
             </div>
-            <div>
-            </div>
+            <div class="LocWDeets-Container">
             <p class="LocWDeets">Drive Time: {{ routecalc.duration }} min</p>
             <p class="LocWDeets">Normally: {{ routecalc.static }} min</p>
             <p class="LocWDeets">Distance: {{ routecalc.distance }}</p>
-            <br><br>
-            <h2 style="margin-top: 0px; margin-bottom: 2px;">Weather</h2>
+            <br>
+            </div>
+            <h2>Weather</h2>
             <table class="weather-table">
               <thead>
                 <tr>
-                  <th>Location</th>
+                  <th>Area</th>
                   <th>Now</th>
                   <th>In 8 hrs</th>
                 </tr>
@@ -86,7 +86,7 @@
                 {% endfor %}
               </tbody>
             </table>
-            <div class="buttondiv" style="margin-top: auto; text-align: center;">
+            <div class="buttondiv" style="text-align: center;">
                 <button class="buttonitself" onclick="location.reload()">Refresh</button>
             </div>
 

@@ -66,7 +66,7 @@ def get_route():
         "path": path,
         "coords": {
             "Home": origin,
-            "Midpoint": midpoint,
+            "Midway": midpoint,
             "Work": dest
         }
     }
@@ -175,7 +175,7 @@ def get_route_steps():
         "steps": steps,
         "coords": {
             "Home": origin,
-            "Midpoint": midpoint,
+            "Midway": midpoint,
             "Work": dest,
         },
     }

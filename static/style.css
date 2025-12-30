@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    font-size: 180%;
+    font-size: 185%;
     overflow: hidden;
 }
 .container {
@@ -9,6 +9,13 @@ body {
     height: 100vh;
 }
 
+
+h2 {
+    text-decoration: underline;
+    font-size:110%;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
 
 #map {
     flex: 2;
@@ -23,7 +30,7 @@ body {
 }
 
 .datetime {
-    margin: -2.9%;
+    margin: -1.5%;
     font-size: 115%;
 }
 
@@ -33,7 +40,7 @@ body {
 
 .LocWDeets {
     margin: 0px;
-    font-size: 100%;
+    font-size: 130%;
 }
 
 .info {
@@ -43,19 +50,19 @@ body {
     height: 100%;
     justify-content: space-between;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
     padding-bottom: 0px;
     margin-bottom: 0px;
-/*    background: #f4f4f4;
-    background: 3a3b3c; */
+    background:  #98a6b3;
+/*    background: 3a3b3c; */
 /*    background: #97bde3; */
-    background: #6b7e91;
+/*    background: #6b7e91;*/
 /*    overflow-y: auto; */
     overflow: hidden;
 }
 
 .buttondiv {
-    margin-top: 8%;
+    margin-top: 5%;
     margin-bottom: 20%;
     text-align: center;
 }
