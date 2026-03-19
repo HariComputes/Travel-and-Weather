@@ -73,12 +73,14 @@ h2 {
 .buttonitself {
     padding: 8px 16px;
     font-size: 150%;
+    background-color: #5F5F5F;
 /*    background-color: #4285F4; */
-    background-color: #a5bed7;
+/*    background-color: #a5bed7;*/
 /*    color: white; */
     border: solid;
     border-radius: 8px;
     cursor: pointer;
+    color: #9F9F9F;
 }
 
 button {
