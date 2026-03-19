@@ -5,42 +5,125 @@
     <link rel="stylesheet" href="/static/style.css">
 
     <script>
-    function initMap() {
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 10,
-            center: { lat: {{ route.coords.Midway[0] }}, lng: {{ route.coords.Midway[1] }} },
-            mapId: "35181a128840bb0d52d7d07f",
-        });
+	function initMap() {
+	    // 1. Initialize the map
+	    const map = new google.maps.Map(document.getElementById("map"), {
+	        zoom: 11,
+	        center: { lat: {{ route.coords.Midway[0] }}, lng: {{ route.coords.Midway[1] }} },
+	        mapId: "e0be1b8a93f2de4fdba6c3da",
+	        colorScheme: "DARK",
+	    });
 
-        // Segment-level traffic polylines
-        {% for step in route.steps %}
-            new google.maps.Polyline({
-                path: [
-                    {% for lat, lng in step.path %}
-                        { lat: {{ lat }}, lng: {{ lng }} },
-                    {% endfor %}
-                ],
-                strokeColor: "{{ step.color }}",
-                strokeOpacity: 0.8,
-                strokeWeight: 5,
-                map: map,
-            });
-         {% endfor %}
+	    // 2. Apply the Dark Mode styles explicitly
+	    map.setOptions({
+	        styles: [
+	            { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+	            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+	            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+	            {
+	                featureType: "administrative.locality",
+	                elementType: "labels.text.fill",
+	                stylers: [{ color: "#d59563" }],
+	            },
+	            {
+	                featureType: "poi",
+	                elementType: "labels.text.fill",
+	                stylers: [{ color: "#d59563" }],
+	            },
+	            {
+	                featureType: "poi.park",
+	                elementType: "geometry",
+	                stylers: [{ color: "#263c3f" }],
+	            },
+	            {
+	                featureType: "poi.park",
+	                elementType: "labels.text.fill",
+	                stylers: [{ color: "#6b9a76" }],
+	            },
+	            {
+	                featureType: "road",
+	                elementType: "geometry",
+	                stylers: [{ color: "#38414e" }],
+	            },
+	            {
+	                featureType: "road",
+	                elementType: "geometry.stroke",
+	                stylers: [{ color: "#212a37" }],
+	            },
+	            {
+	                featureType: "road",
+	                elementType: "labels.text.fill",
+	                stylers: [{ color: "#9ca5b3" }],
+	            },
+	            {
+	                featureType: "road.highway",
+	                elementType: "geometry",
+	                stylers: [{ color: "#746855" }],
+	            },
+	            {
+	                featureType: "road.highway",
+	                elementType: "geometry.stroke",
+	                stylers: [{ color: "#1f2835" }],
+	            },
+	            {
+	                featureType: "road.highway",
+	                elementType: "labels.text.fill",
+	                stylers: [{ color: "#f3d19c" }],
+	            },
+	            {
+	                featureType: "transit",
+	                elementType: "geometry",
+	                stylers: [{ color: "#2f3948" }],
+	            },
+	            {
+	                featureType: "transit.station",
+	                elementType: "labels.text.fill",
+	                stylers: [{ color: "#d59563" }],
+	            },
+	            {
+	                featureType: "water",
+	                elementType: "geometry",
+	                stylers: [{ color: "#17263c" }],
+	            },
+	            {
+	                featureType: "water",
+	                elementType: "labels.text.fill",
+	                stylers: [{ color: "#515c6d" }],
+	            },
+	            {
+	                featureType: "water",
+	                elementType: "labels.text.stroke",
+	                stylers: [{ color: "#17263c" }],
+	            }
+	        ]
+	    });
 
-         {% for name, coords in route.coords.items() %}
-             new google.maps.marker.AdvancedMarkerElement({
-                 position: { lat: {{ coords[0] }}, lng: {{ coords[1] }} },
-                 map: map,
-                 title: "{{ name }}"
-             });
-         {% endfor %}
-         console.log("initMap defined");
+	    // 3. Loops for Polylines and Markers (the rest of your code...)
+	    {% for step in route.steps %}
+	        new google.maps.Polyline({
+	            path: [
+	                {% for lat, lng in step.path %}
+	                    { lat: {{ lat }}, lng: {{ lng }} },
+	                {% endfor %}
+	            ],
+	            strokeColor: "{{ step.color }}",
+	            strokeOpacity: 0.8,
+	            strokeWeight: 5,
+	            map: map,
+	        });
+	    {% endfor %}
 
-
-    }
+	    {% for name, coords in route.coords.items() %}
+	        new google.maps.marker.AdvancedMarkerElement({
+	            position: { lat: {{ coords[0] }}, lng: {{ coords[1] }} },
+	            map: map,
+	            title: "{{ name }}"
+	        });
+	    {% endfor %}
+	}
     </script>	
 	
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap&libraries=marker&loading=async"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?v=beta&key={{ google_api_key }}&callback=initMap&libraries=marker&loading=async"></script>
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">

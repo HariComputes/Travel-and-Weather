@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     font-size: 185%;
     overflow: hidden;
+    color: #9F9F9F;
 }
 .container {
     display: flex;
@@ -19,6 +20,7 @@ h2 {
 
 #map {
     flex: 2;
+    background-color: black;
 }
 
 
@@ -53,7 +55,8 @@ h2 {
     padding: 10px;
     padding-bottom: 0px;
     margin-bottom: 0px;
-    background:  #98a6b3;
+    background: #000000;
+/*    background:  #98a6b3;*/
 /*    background: 3a3b3c; */
 /*    background: #97bde3; */
 /*    background: #6b7e91;*/
@@ -102,7 +105,8 @@ button {
 } */
 
 .weather-table th {
-  background-color: #f4f4f4;
+/*  background-color: #f4f4f4;*/
+  background-color: #5F5F5F;
   font-weight: 600;
 }
 
