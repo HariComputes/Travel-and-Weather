@@ -1,0 +1,5 @@
+secrets.json
+venv/
+dynamic-map-gui.py
+__pycache__
+log.txt
